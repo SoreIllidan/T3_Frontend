@@ -1,0 +1,46 @@
+<!--<div class="product-detail-card custom-card-border">
+  <div class="product-image-side">
+    <img [src]="producto.imagen" alt="Imagen del producto" class="product-image-large" />
+  </div>
+  <div class="product-info-side">
+    <div class="product-header">
+      <h5 class="product-title">{{ producto.nombre }}</h5>
+      <div class="product-rating">
+        <ng-container *ngFor="let star of [1,2,3,4,5]; let i = index">
+
+        </ng-container>
+
+      </div>
+    </div>
+
+    <div class="product-prices">
+      <span class="product-price">S/. {{ producto.precioUnitario }}</span>
+    </div>
+
+    <div class="product-specs">
+      <div><b>Marca:</b> {{ producto.marca }}</div>
+      <div><b>Stock mínimo:</b> {{ producto.stockMinimo }}</div>
+    </div>
+
+    <button class="add-to-cart-btn">Añadir al carrito</button>
+  </div>
+</div>-->
+
+<div class="product-card-vertical custom-card-border">
+  <div class="product-image-top">
+    <img [src]="producto.imagen" alt="Imagen del producto" class="product-image-vertical" />
+  </div>
+  <div class="product-info-bottom">
+    <div class="product-header">
+      <h5 class="product-title">{{ producto.nombre }}</h5>
+    </div>
+    <div class="product-prices">
+      <span class="product-price">S/. {{ producto.precioUnitario }}</span>
+    </div>
+    <div class="product-specs">
+      <div><b>Marca:</b> {{ producto.marca }}</div>
+      <div><b>Stock mínimo:</b> {{ producto.stockMinimo }}</div>
+    </div>
+    <button class="add-to-cart-btn">Añadir al carrito</button>
+  </div>
+</div>

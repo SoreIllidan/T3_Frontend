@@ -1,0 +1,72 @@
+<footer class="footer">
+<div class="footer-container">
+    <div class="footer-content">
+    <div class="footer-section">
+        <a href="javascript:void(0)" class="footer-logo-link">
+        <img src="assets/images/logo.png" 
+            alt="Imporllesinc Logo" 
+            class="footer-logo">
+        </a>
+        <p class="footer-description">
+        Importadores de tecnología de última generación. Ofrecemos los mejores productos con garantía y servicio técnico.
+        </p>
+    </div>
+    <div class="footer-section">
+        <h3 class="footer-title">Enlaces rápidos</h3>
+        <ul class="footer-links">
+        <li><a href="javascript:void(0)" class="footer-link">Inicio</a></li>
+        <li><a href="javascript:void(0)" class="footer-link">Productos</a></li>
+        <li><a href="javascript:void(0)" class="footer-link">Sobre nosotros</a></li>
+        <li><a href="javascript:void(0)" class="footer-link">Contacto</a></li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3 class="footer-title">Contacto</h3>
+        <ul class="footer-contact">
+        <li class="contact-item">
+            <i class="fas fa-map-marker-alt contact-icon"></i>
+            <span>Av. Principal 123, Ciudad</span>
+        </li>
+        <li class="contact-item">
+            <i class="fas fa-phone contact-icon"></i>
+            <span>+123 456 7890</span>
+        </li>
+        <li class="contact-item">
+            <i class="fas fa-envelope contact-icon"></i>
+            <span>info&#64;imporllesinc.com</span>
+        </li>
+        </ul>
+    </div>
+    <div class="footer-section">
+        <h3 class="footer-title">Suscríbete</h3>
+        <p class="subscribe-description">
+        Recibe nuestras ofertas y novedades
+        </p>
+        <form class="subscribe-form" (ngSubmit)="onSubscribe()" #subscribeForm="ngForm">
+        <div class="input-group">
+            <input 
+            type="email" 
+            placeholder="Tu email" 
+            class="subscribe-input"
+            [(ngModel)]="subscriptionEmail"
+            name="email"
+            required>
+            <button type="submit" class="subscribe-button">
+            <i class="fas fa-paper-plane"></i>
+            </button>
+        </div>
+        </form>
+        <div class="social-links">
+        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+    </div>
+    </div>
+    
+    <div class="footer-divider">
+    <p class="footer-copyright">&copy; {{ currentYear }} Imporllesinc. Todos los derechos reservados.</p>
+    </div>
+</div>
+</footer>

@@ -1,0 +1,143 @@
+<!-- Main Content -->
+<div class="main-content">
+    <!-- Modulo de Productos -->
+    <div class="container-fluid">
+        <div class="justify-content-between align-items-center">
+            <h4 class="text-center">GESTIÓN DE PRODUCTOS</h4>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-plus-circle me-2"></i> Registrar Producto
+                    </div>
+                    <div class="card-body">
+                        <form [formGroup]="form" >
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="control-label">Nombre</label>
+                                    <input class="form-control" type="text" formControlName="nombre">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Marca</label>
+                                    <select class="form-select" formControlName="marca">
+                                        <option value="" selected disabled>Seleccionar marca</option>
+                                        <option value="asus">Asus</option>
+                                        <option value="Lenovo">Lenovo</option>
+                                        <option value="hp">HP</option>
+                                        <option value="acer">Acer</option>
+                                        <option value="msi">MSI</option>
+                                        <option value="MacBook">MacBook</option>
+                                        <option value="dell">Dell</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">Precio Unitario</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">S/.</span>
+                                        <input class="form-control" type="number" formControlName="precio" min="0" step="0.01">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Proveedor</label>
+                                    <select class="form-select" formControlName="proveedor" required>
+                                        <option value="" selected disabled>Seleccionar proveedor</option>
+                                        <option *ngFor="let p of proveedor" [ngValue]="p.id">{{ p.nombre }}</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-2">
+                                    <label class="control-label">Stock</label>
+                                    <input class="form-control" type="number" formControlName="stock" min="0" step="1">
+                                </div>
+                                <div class="col-10">
+                                    <label class="control-label">Descripción del producto</label>
+                                    <input class="form-control" type="text" formControlName="especificaciones">
+                                </div>
+                                <div class="col-11">
+                                    <label class="control-label">Imagen</label>
+                                    <input type="file" class="form-control" (change)="onFileSelected($event)">
+                                </div>
+                                <div class="col-md-4" *ngIf="imagePreview">
+                                  <img [src]="imagePreview" alt="Vista previa" class="img-thumbnail" style="max-width: 200px;">
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-primary" id="producto-submit-btn" (click)="guardarProducto()">
+                                          <i class="fas fa-save me-1"></i> Agregar
+                                        </button>
+                                        <button type="button" class="btn btn-secondary" id="producto-cancel-btn" style="display:none">
+                                            <i class="fas fa-times me-1"></i> Cancelar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-list me-2"></i> Lista de Productos
+                        </div>
+                        <div class="action-buttons d-flex justify-content-end" id="producto-actions">
+                            <button class="btn btn-sm btn-outline-primary me-2" id="producto-edit-btn" (click)="editarProducto()" [disabled]="!productoSeleccionado">
+                                <i class="fas fa-edit me-1"></i> Editar
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" id="producto-delete-btn" (click)="eliminarProducto()" [disabled]="!productoSeleccionado">
+                                <i class="fas fa-trash me-1"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover" id="productos-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Marca</th>
+                                        <th>Precio</th>
+                                        <th>Proveedor</th>
+                                        <th>Cantidad</th>
+                                        <th>Especificaciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let prod of productos" (click)="seleccionarProducto(prod)" [class.table-primary]="prod === productoSeleccionado">
+                                    <td>{{ prod.id }}</td>
+                                    <td>{{ prod.nombre }}</td>
+                                    <td>{{ prod.marca }}</td>
+                                    <td>{{ prod.precioUnitario }}</td>
+                                    <td>{{ getProveedorNombre(prod.idproveedor) }}</td>
+                                    <td>{{ prod.stockMinimo }}</td>
+                                    <td>{{ prod.especificaciones }}</td>
+                                  </tr>
+                                  <tr *ngIf="productos.length === 0">
+                                    <td colspan="7" class="text-center py-4">No hay productos registrados.</td>
+                                  </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- Scripts -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+

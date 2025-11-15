@@ -1,0 +1,82 @@
+<main class="content-main">
+  <!-- Carousel -->
+  <div class="carousel-container">
+    <div class="carousel-slide"
+        *ngFor="let imagen of imagenes; let i = index"
+        [class.active]="i === slideActual">
+
+      <img [src]="imagen.src"
+          [alt]="imagen.alt"
+          class="carousel-image" />
+
+      <div class="carousel-overlay">
+      </div>
+    </div>
+    <button class="carousel-nav prev" (click)="previousSlide()">‹</button>
+    <button class="carousel-nav next" (click)="nextSlide()">›</button>
+  </div>
+
+  <!-- Product Section -->
+ <div class="product-section" *ngIf="!selectedProducto">
+    <!-- Filters Column -->
+    <div class="filters-sidebar">
+      <div class="filter-card">
+        <h3 class="filter-title">Filtros</h3>
+        <!-- Price Range -->
+        <div class="filter-group">
+          <h4 class="filter-subtitle">Rango de Precio</h4>
+          <div class="price-range">
+            <input type="range"
+                   [min]="priceRange.min"
+                   [max]="priceRange.max"
+
+                   class="price-slider">
+            <input type="range"
+                   [min]="priceRange.min"
+                   [max]="priceRange.max"
+
+                   class="price-slider">
+            <div class="price-display">
+              <span>${{selectedPriceMin}}</span>
+              <span>${{selectedPriceMax}}</span>
+            </div>
+          </div>
+        </div>
+        <!-- Categories -->
+        <div class="filter-group">
+          <h4 class="filter-subtitle">Categoría</h4>
+          <div class="checkbox-group">
+            <div class="checkbox-item" *ngFor="let category of categories">
+              <input type="checkbox"
+                     [id]="'cat-' + category.id"
+
+                     (change)="onCategoryChange()">
+              <label [for]="'cat-' + category.id">{{category.name}}</label>
+            </div>
+          </div>
+        </div>
+        <!-- Brands -->
+        <div class="filter-group">
+          <h4 class="filter-subtitle">Marca</h4>
+          <div class="checkbox-group">
+            <div class="checkbox-item" *ngFor="let brand of brands">
+              <input type="checkbox"
+                     [id]="'brand-' + brand.id"
+                     (change)="onBrandChange()">
+              <label [for]="'brand-' + brand.id">{{brand.name}}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="custom-products-grid">
+      <div class="col-md-4" *ngFor="let producto of productos">
+        <app-card-producto [producto]="producto"(click)="onSelectProduct(producto)"></app-card-producto>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="selectedProducto">
+    <app-content-detalle [producto]="selectedProducto" (volver)="selectedProducto = null"></app-content-detalle>
+  </div>
+
+</main>
