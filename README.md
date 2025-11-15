@@ -1,6 +1,6 @@
 **T3 CLOUD COMPUTING Y CONTINUIDAD GRUPO 8**
 
-![Logo del Proyecto]([[./docs/images/logo.png](https://drive.google.com/file/d/1_k9H62ra_SDCEoyY2Ko5_REYpUJtlu5K/view?usp=sharing)](https://discord.com/channels/1111808588231479366/1111808588231479369/1439259737563861032))
+![Logo del Proyecto]([[[./docs/images/logo.png](https://drive.google.com/file/d/1_k9H62ra_SDCEoyY2Ko5_REYpUJtlu5K/view?usp=sharing)](https://discord.com/channels/1111808588231479366/1111808588231479369/1439259737563861032)](https://media.discordapp.net/attachments/1111808588231479369/1439259737244831744/image.png?ex=6919de95&is=69188d15&hm=b1dbc59f78f1ba6ed026304c4cf4d075b4433f5aa93e892a1db41071b9f020ac&=&format=webp&quality=lossless&width=717&height=659))
 
 Descripción breve del proyecto.
 
