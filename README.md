@@ -1,6 +1,6 @@
 # 📢📢📢 **T3 CLOUD COMPUTING Y CONTINUIDAD GRUPO 8**
 
-![Logo del Proyecto](./docs/images/logo.png)
+![Logo del Proyecto]([./docs/images/logo.png](https://drive.google.com/file/d/1_k9H62ra_SDCEoyY2Ko5_REYpUJtlu5K/view?usp=sharing))
 
 Descripción breve del proyecto.
 
