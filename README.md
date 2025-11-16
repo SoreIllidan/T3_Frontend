@@ -34,13 +34,10 @@ Link: del repositorio backend https://github.com/SoreIllidan/Porlles_Frontend/
 
 ### Crear Base de Datos
 ```sql
-CREATE DATABASE nombre_bd;
+CREATE DATABASE ImportPorllesDB;
 ```
 
-### Importar Script
-```bash
-mysql -u usuario -p nombre_bd < database/schema.sql
-```
+Necesitamos primero crear la base de datos ya que nuestro backend springboot la crea si no existe
 
 ---
 
