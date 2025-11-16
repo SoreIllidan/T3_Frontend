@@ -204,20 +204,87 @@ vercel
 
 ## 📤 **Base de Datos (Cloud SQL)**
 
-### Crear instancia Cloud SQL (MySQL)
+En este proyecto, el backend no se conecta a la base de datos mediante una IP pública. En su lugar, se utiliza la arquitectura recomendada por Google: un servidor de Compute Engine (VM) que se conecta de forma segura a la base de datos a través del **Cloud SQL Auth Proxy usando IP Privada**.
 
-1. Ve a Google Cloud Console → SQL
-2. Crea una instancia MySQL 8.0
-3. Configura usuario y contraseña
-4. Crea la base de datos `ImportPorllesDB`
+### 1. Creación de la Instancia de Cloud SQL
+
+1. Ve a la **Consola de Google Cloud → SQL**.
+2. Haz clic en **"Crear instancia"** y elige **MySQL** (ej. 8.0).
+
+**Configuración para Producción:**
+
+- Establece una **contraseña segura** para el usuario `root`.
+- En **"Elige la región y la disponibilidad zonal"**, selecciona **"Varias zonas (con alta disponibilidad)"**. Esto crea una réplica para tolerancia a fallos.
+- En **"Personaliza tu instancia"**, ajusta los núcleos (vCPU) y la RAM a un tamaño adecuado para empezar (ej. 2 vCPU, 8 GB RAM).
+- Espera a que la instancia se cree.
+
+### 2. Configuración de Red (IP Privada)
+
+Para que la VM y la BD se comuniquen internamente:
+
+1. Dentro de la instancia de Cloud SQL, ve al menú **"Conexiones"**.
+2. Ve a la pestaña **"Redes"**.
+3. Marca la casilla **"IP privada"**.
+4. En el menú desplegable **"Red"**, selecciona `default` (o la red VPC donde reside tu VM).
+
+> **Paso único por proyecto:** Si es la primera vez, Google te pedirá "Configura la conexión". Esto habilita la "Service Networking API" y reserva un rango de IP para los servicios. Sigue el asistente para completarlo.
+
+5. Guarda los cambios de la instancia de Cloud SQL.
+
+### 3. Configuración de Permisos de la VM (Compute Engine)
+
+La VM necesita permiso para autenticarse con la API de Cloud SQL:
+
+1. Ve al menú (☰) → **Compute Engine → Instancias de VM**.
+2. **Detén la VM** (este cambio no se puede hacer en caliente).
+3. Una vez detenida, haz clic en su nombre para entrar a los detalles y haz clic en **"Editar"**.
+4. Busca la sección **"Identidad y acceso a las API"**.
+5. En **"Permisos de acceso"**, cambia la configuración a **"Permitir acceso completo a todas las API de Cloud"**.
+6. Guarda los cambios e **Inicia la VM**.
+
+### 4. Configuración del Cloud SQL Auth Proxy (En la VM)
+
+El proxy es un "túnel" seguro que se ejecuta en la VM y se conecta a la BD.
+
+1. **Descarga el ejecutable del Cloud SQL Auth Proxy** (`cloud-sql-proxy.exe`) en tu VM de Windows desde: https://cloud.google.com/sql/docs/mysql/sql-proxy
+2. Obtén el **"Nombre de conexión de la instancia"** desde la página de "Descripción general" de tu instancia de Cloud SQL (formato: `proyecto:region:instancia`).
+3. Ejecuta el proxy. Para producción, se recomienda configurarlo como un **servicio de Windows** (usando `nssm.exe` o similar) para que se inicie automáticamente en segundo plano.
+
+**Comando para ejecutar el proxy:**
+
+```bash
+# Reemplaza [NOMBRE_DE_CONEXION] con el tuyo
+.\cloud-sql-proxy.exe --private-ip --port 3306 [NOMBRE_DE_CONEXION]
+```
+
+- `--private-ip` fuerza al proxy a usar la conexión de red interna que configuramos.
+- `--port 3306` hace que el proxy escuche en `localhost:3306`.
+
+### 5. Crear la Base de Datos
+
+Conéctate a la instancia desde Cloud Shell o desde la VM usando el proxy:
+
+```bash
+mysql -u root -p -h 127.0.0.1
+```
+
+Ejecuta:
 
 ```sql
 CREATE DATABASE ImportPorllesDB;
 ```
 
-### Conectar desde backend
+### 6. Configuración del Backend
 
-Usa las variables de entorno mencionadas anteriormente o configura Cloud SQL Proxy.
+Asegúrate de que el archivo `application-prod.properties` en la VM tenga:
+
+```properties
+spring.datasource.url=jdbc:mysql://127.0.0.1:3306/ImportPorllesDB?allowPublicKeyRetrieval=true&useSSL=false
+spring.datasource.username=root
+spring.datasource.password=tu_contraseña_segura
+```
+
+> **Nota:** Como el proxy escucha en `localhost:3306`, el backend se conecta a `127.0.0.1:3306`, no a la IP de Cloud SQL directamente.
 
 ---
 
