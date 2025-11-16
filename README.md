@@ -127,29 +127,29 @@ El frontend estará disponible en: **http://localhost:4200**
 
 ## 📤 **Backend (Compute Engine - Windows Server)**
 
-El backend se despliega en una **VM de Windows Server en Compute Engine**, utilizando **IIS (Internet Information Services)** como servidor web con el módulo **HttpPlatformHandler** para ejecutar la aplicación Spring Boot.
+El backend se despliegó en una **VM de Windows Server en Compute Engine**, utilizando **IIS (Internet Information Services)** como servidor web con el módulo **HttpPlatformHandler** para ejecutar la aplicación Spring Boot.
 
 ### 1. Crear la VM en Compute Engine
 
-1. Ve a **Compute Engine → Instancias de VM**.
-2. Haz clic en **"Crear instancia"**.
-3. **Configuración recomendada:**
+1. Vamos a **Compute Engine → Instancias de VM**.
+2. Hacemos clic en **"Crear instancia"**.
+3. **Configuración aplicada:**
    - **Nombre:** `windows-server-cloud-computing`
    - **Región:** `southamerica-west1` (Santiago, Chile) - misma región que Cloud SQL
    - **Zona:** `southamerica-west1-a`
-   - **Tipo de máquina:** e2-medium (2 vCPU, 4 GB memoria) o superior
+   - **Tipo de máquina:** e2-medium (2 vCPU, 4 GB memoria)
    - **Disco de arranque:** Windows Server 2022 Datacenter (50 GB SSD)
    - **Firewall:** ✅ Permitir tráfico HTTP y HTTPS
 
-4. En **"Identidad y acceso a las API"**, selecciona **"Permitir acceso completo a todas las API de Cloud"**.
-5. Haz clic en **"Crear"**.
+4. En **"Identidad y acceso a las API"**, seleccionamos **"Permitir acceso completo a todas las API de Cloud"**.
+5. Hacemos clic en **"Crear"**.
 
 ### 2. Configurar Reglas de Firewall
 
 Para permitir acceso al backend en el puerto 8080:
 
-1. Ve a **VPC Network → Firewall**.
-2. Haz clic en **"Crear regla de firewall"**.
+1. Vamos a **VPC Network → Firewall**.
+2. Hacemos clic en **"Crear regla de firewall"**.
 3. **Configuración:**
    - **Nombre:** `allow-backend-8080`
    - **Dirección del tráfico:** Entrada
@@ -169,19 +169,19 @@ mvnw clean package -DskipTests
 
 El archivo JAR se generará en: `Backend/target/sbootporlles-0.0.1-SNAPSHOT.jar`
 
-### 4. Subir el JAR a la VM
+### 4. Subir el JAR 
 
-Conéctate a la VM mediante RDP y transfiere el archivo JAR. Crea una carpeta:
+Transferimos el archivo JAR a la siguiente ruta:
 
 ```powershell
 C:\App\backend\
 ```
 
-Coloca el archivo JAR en esta carpeta.
+Colocamos el archivo JAR en esta carpeta.
 
 ### 5. Configurar application-prod.properties
 
-Crea o edita el archivo `application-prod.properties` en la VM:
+editamos el archivo `application-prod.properties`:
 
 ```properties
 spring.datasource.url=jdbc:mysql://127.0.0.1:3306/ImportPorllesDB?allowPublicKeyRetrieval=true&useSSL=false
@@ -201,40 +201,35 @@ file.max-size=10485760
 
 ### 6. Instalar Java en la VM
 
-1. Descarga **Java 21** desde: https://adoptium.net/
-2. Instala el JDK en `C:\Program Files\Eclipse Adoptium\jdk-21.0.x\`
-3. Verifica la instalación:
-
-```powershell
-java -version
-```
+1. Descargamos **Java 21** desde: https://adoptium.net/
+2. Instalamos el JDK en `C:\Program Files\Eclipse Adoptium\jdk-21.0.x\`
 
 ### 7. Configurar IIS con HttpPlatformHandler
 
 #### Instalar IIS:
 
-1. Abre **Server Manager** → **Add roles and features**.
+1. Abrimos **Server Manager** → **Add roles and features**.
 2. Selecciona **Web Server (IIS)**.
-3. Instala con las opciones por defecto.
+3. Instalamos con las opciones por defecto.
 
 #### Instalar HttpPlatformHandler:
 
-1. Descarga desde: https://www.iis.net/downloads/microsoft/httpplatformhandler
-2. Instala el módulo en IIS.
+1. Descargamos desde: https://www.iis.net/downloads/microsoft/httpplatformhandler
+2. Instalamos el módulo en IIS.
 
 #### Crear el sitio web en IIS:
 
-1. Abre **IIS Manager**.
+1. Abrimos **IIS Manager**.
 2. Clic derecho en **Sites → Add Website**.
 3. **Configuración:**
    - **Site name:** `BackendPorlles`
    - **Physical path:** `C:\App\backend`
    - **Binding:** Port `8080`, IP: `*` (todas las IPs)
-4. Haz clic en **OK**.
+4. Hacemos clic en **OK**.
 
 #### Crear web.config:
 
-En `C:\App\backend\`, crea un archivo `web.config`:
+En `C:\App\backend\`, creamos un archivo `web.config`:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -296,21 +291,7 @@ cd C:\Tools\nssm-2.24\win64
 
 ### 9. Iniciar el Backend
 
-Reinicia el sitio web en IIS o reinicia la VM. El backend estará disponible en:
-
-```
-http://IP_EXTERNA_VM:8080
-```
-
-### 10. Verificación
-
-Prueba el endpoint:
-
-```bash
-curl http://IP_EXTERNA_VM:8080/api/health
-```
-
----
+Reiniciamos el sitio web en IIS. El backend estará disponible.
 
 ## 📤 **Frontend (Firebase Hosting)**
 
