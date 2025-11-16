@@ -34,8 +34,9 @@ Link: del repositorio backend https://github.com/SoreIllidan/Porlles_Frontend/
 
 PASOS:
 
-1.Primero instalamos MySQL Workbench\n
-2.Ingresamos a una conexión deseada y ejecutamos el siguiente comando
+1. Primero instalamos MySQL Workbench  
+2. Ingresamos a una conexión deseada y ejecutamos el siguiente comando
+
 
 ### Crear Base de Datos
 ```sql
